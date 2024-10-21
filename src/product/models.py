@@ -37,18 +37,11 @@ class Product(Base):
     id = mapped_column(Integer, primary_key=True, autoincrement=True)
     session_id = mapped_column(UUID)
     name = mapped_column(String(255))
-    demo_url = mapped_column(String(255))
     category_id = mapped_column(Integer, ForeignKey('categories.id'), nullable=True)
     
     created_at = mapped_column(DateTime, default=datetime.now)
     updated_at = mapped_column(DateTime, default=datetime.now, onupdate=datetime.now)
     is_active = mapped_column(Boolean, default=True)
-
-    #vendor = relationship("Vendor", back_populates="products")
-    category = relationship("Category", back_populates="products")
-    images = relationship("ProductImage", back_populates="product")
-    cart_items = relationship("CartItem", back_populates="product")
-    # order_items = relationship("OrderItem", back_populates="product")
     
     @classmethod
     async def find(cls, database_session: AsyncSession, where_conditions: list[Any]):

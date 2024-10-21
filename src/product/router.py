@@ -1,8 +1,9 @@
 from uuid import uuid4
 from datetime import datetime
-from faker import Faker
-from fastapi import FastAPI, APIRouter, Depends, Request, HTTPException
+
+from fastapi import APIRouter, Depends, Request, HTTPException
 from src.product.schemas import ProductRequest, ProductResponse
+# from faker import Faker
 # from sqlalchemy.ext.asyncio import AsyncSession
 # from sqlalchemy.orm import joinedload
 # from sqlalchemy import select
