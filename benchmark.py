@@ -90,7 +90,7 @@ def generate_products(n=100_000):
 
 if __name__ == "__main__":
     # Define the number of products to generate
-    NUM_PRODUCTS = 100000
+    NUM_PRODUCTS = 10000
 
     # Benchmark the product generation and validation
     time_taken = timeit.timeit(lambda: generate_products_dataclass(NUM_PRODUCTS), number=10)

@@ -1,18 +1,19 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from src.config import app_configs, settings
+from src.config import settings
+from src.product.router import router as product_router
+from src.payment.router import router as payment_router
+
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
-from src.product import router as product_router
 
-app = FastAPI(**app_configs)
+app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
-    allow_origin_regex=settings.CORS_ORIGINS_REGEX,
     allow_credentials=True,
     allow_methods=("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"),
     allow_headers=settings.CORS_HEADERS,
@@ -26,3 +27,4 @@ async def healthcheck() -> dict[str, str]:
 
 
 app.include_router(product_router)
+app.include_router(payment_router)

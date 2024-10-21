@@ -3,6 +3,7 @@ from pydantic import BaseModel, EmailStr, Field, constr, condecimal, field_valid
 from enum import Enum
 from typing import List, Optional, Annotated
 from datetime import datetime
+from pydantic_extra_types.phone_numbers import PhoneNumber
 
 # ENUM  for Order Status
 class OrderStatus(str, Enum):
@@ -11,6 +12,7 @@ class OrderStatus(str, Enum):
     SHIPPED = 'Shipped'
     DELIVERED = 'Delivered'
     CANCELED = 'Canceled'
+
 
 # ENUM for Payment Method
 class PaymentMethod(str, Enum):
@@ -35,8 +37,8 @@ class Customer(BaseModel):
         
         if not pattern.match(v):
             raise ValueError('Phone number must start with + and contain 10 to 15 digits')
-        
         return v
+
 
 # Product Information
 class Product(BaseModel):
@@ -44,6 +46,7 @@ class Product(BaseModel):
     name: str
     quantity: int = Field(..., ge=1)
     price_per_unit: condecimal(max_digits=10, decimal_places=2)
+
 
 # Shipment Information
 class Shipment(BaseModel):
