@@ -22,7 +22,6 @@ async def create_payment(request: Request, product: PaymentRequest):
     # Create the response
     payment_response = PaymentResponse(
         transaction_id=uuid4(),
-        amount=product.amount,
         card_brand=product.card_brand,
         cvv=product.cvv.get_secret_value(),
         masked_card_number=product.masked_card_number,

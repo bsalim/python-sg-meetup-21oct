@@ -20,18 +20,3 @@ async def create_product(request: Request, product: ProductRequest):
     )
     return product_response
     
-
-# @router.get("/insert_products")
-# async def insert_products(db: AsyncSession = Depends(get_db)):
-#     fake = Faker()
-#     products = [Product(name=fake.word(), price=100) for _ in range(1_000_000)]
-    
-#     try:
-#         async with db.begin():
-#             db.add_all(products)
-#         await db.commit()
-#     except Exception as e:
-#         await db.rollback()
-#         raise HTTPException(status_code=500, detail=str(e))
-    
-#     return {"message": "1 million products inserted successfully"}

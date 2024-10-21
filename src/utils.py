@@ -6,7 +6,7 @@ from decimal import Decimal
 from fastapi import Request
 from jinja2 import Environment, FileSystemLoader
 
-from src.config import settings
+from src.__config import settings
 
 logger = logging.getLogger(__name__)
 

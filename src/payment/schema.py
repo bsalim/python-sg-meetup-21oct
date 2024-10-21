@@ -1,7 +1,9 @@
+import re
 from datetime import datetime
 from enum import Enum
 from uuid import uuid4
 from pydantic import BaseModel, SecretStr, Field, field_validator, UUID4
+from pydantic_core import PydanticCustomError
 from pydantic_extra_types.payment import PaymentCardNumber
 
 class TransactionStatus(Enum):
@@ -14,13 +16,22 @@ class TransactionStatus(Enum):
 class PaymentRequest(BaseModel):
     card_number: PaymentCardNumber = Field(
         ...,
-        example="4111111111111111",  # Example Visa card number
+        example="4111111111111111 for Visa, 3566002020360505 for JCB",  # Example Visa card number
         description="Valid Visa card number"
     )
     expiration_date: str 
     cvv: SecretStr
-    amount: float
     cardholder_name: str 
+
+    @field_validator("card_number")
+    @classmethod
+    def validate_card_number(cls, value):
+        # Starts with 3528 - 3589
+        # Example: 3528 1234 5678 9010
+        if re.match(r'^(?:352[89]|35[3-8][0-9])\d{12}$', value):
+            raise PydanticCustomError('card_number_error', 'JCB is not supported')
+        return value
+
 
     @property
     def card_brand(self) -> str:
